@@ -36,6 +36,10 @@ var readUrl = function (url) {
     var d = Q.defer();
     restler.get(url).on("success", function (data, response) {
         d.resolve(cheerio.load(data));
+    }).on("error", function (err, response) {
+        d.reject(err);
+    }).on("fail", function (err, response) {
+        d.reject(err);
     });
     return d.promise;
 };
@@ -95,7 +99,11 @@ if (require.main === module) {
         var outJson = JSON.stringify(checkJson, null, 4);
         console.log(outJson);
     }).fail(function (error) {
-        console.log("error:", error);
+        if (error.code == 'ENOENT') {
+            console.error("Error: file " + error.path + " does not exist.");
+        } else {
+            console.error("Error: " + error);
+        }
         process.exit(1);
     });
 } else {
