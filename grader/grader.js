@@ -1,5 +1,7 @@
 #!/usr/bin/env node
 
+"use strict";
+
 /*
 References:
 
@@ -19,68 +21,52 @@ var cheerio = require('cheerio');
 var restler = require('restler');
 var Q = require('q');
 
-var readFile = function(filename) {
-    "use strict";
+var readFile = function (filename) {
     var d = Q.defer();
-    fs.readFile(filename, function(err, data) {
-        if(err) {
-            d.reject(new Error(err));
+    fs.readFile(filename, function (err, data) {
+        if (err) {
+            d.reject(err);
         }
         d.resolve(data);
     });
     return d.promise;
-}
+};
 
-var readUrl = function(url) {
-    "use strict";
+var readUrl = function (url) {
     var d = Q.defer();
-    restler.get(url).on("success", function(data, response) {
+    restler.get(url).on("success", function (data, response) {
         d.resolve(cheerio.load(data));
     });
     return d.promise;
-}
-
-var assertFileExists = function(infile) {
-    "use strict";
-    var instr = infile.toString();
-    if(!fs.existsSync(instr)) {
-        console.log("%s does not exist. Exiting.", instr);
-        process.exit(1); // http://nodejs.org/api/process.html#process_process_exit_code
-    }
-    return instr;
 };
 
-var cheerioHtmlFile = function(htmlfile) {
-    "use strict";
-    return readFile(htmlfile).then(function(data) {
+var cheerioHtmlFile = function (htmlfile) {
+    return readFile(htmlfile).then(function (data) {
         return cheerio.load(data);
     });
 };
 
-var loadChecks = function(checksfile) {
-    "use strict";
-    return readFile(checksfile).then(function(data) {
+var loadChecks = function (checksfile) {
+    return readFile(checksfile).then(function (data) {
         return JSON.parse(data).sort();
     });
 };
 
-var checkFile = function(input, checks) {
-    "use strict";
-    return Q.spread([input, checks], (function($, checks) {
+var checkFile = function (input, checks) {
+    return Q.spread([input, checks], function ($, checks) {
         var ii, present, out = {};
-        for(ii in checks) {
-            if(checks.hasOwnProperty(ii)) {
+        for (ii in checks) {
+            if (checks.hasOwnProperty(ii)) {
                 present = $(checks[ii]).length > 0;
                 out[checks[ii]] = present;
             }
         }
-        return out
-    }));
+        return out;
+    });
 };
 
-var checkUrl = function(url, checks) {
-    "use strict";
-    restler.get(url).on('success', function(data, response) {
+var checkUrl = function (url, checks) {
+    restler.get(url).on('success', function (data, response) {
         console.log(data);
     });
 };
@@ -96,19 +82,22 @@ Options:\n\
   -u, --url <URL>            URL to check (overrides --file)";
 var docopt = require("docopt");
 
-if(require.main === module) {
+if (require.main === module) {
     var opts = docopt.docopt(doc);
     var checks = loadChecks(opts['--checks']);
     var input;
-    if(opts['--url']) {
+    if (opts['--url']) {
         input = readUrl(opts['--url']);
     } else {
         input = cheerioHtmlFile(opts['--file']);
     }
-    checkFile(input, checks).then(function(checkJson) {
+    checkFile(input, checks).then(function (checkJson) {
         var outJson = JSON.stringify(checkJson, null, 4);
         console.log(outJson);
+    }).fail(function (error) {
+        console.log("error:", error);
+        process.exit(1);
     });
 } else {
-    exports.checkHtmlFile = checkHtmlFile;
+    exports.checkFile = checkFile;
 }
