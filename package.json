@@ -1,7 +1,7 @@
 {
-  "name": "node-js-sample",
+  "name": "bst",
   "version": "0.0.1",
-  "description": "a sample node.js app for heroku",
+  "description": "Coursera startup engeneering homework",
   "main": "web.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
@@ -15,13 +15,13 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/heroku/node-js-sample"
+    "url": "https://github.com/abbot/coursera-startup-001.git"
   },
   "keywords": [
     "node",
     "heroku"
   ],
-  "author": "Mark Pundsack",
-  "license": "BSD",
-  "gitHead": "90fd58e343c29e54fc1d4e19036595500b2bdc21"
+  "author": "Lev Shamardin",
+  "license": "Apache 2.0",
+  "gitHead": ""
 }
