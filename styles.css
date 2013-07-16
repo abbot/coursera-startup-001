@@ -1,0 +1,68 @@
+@import url(http://fonts.googleapis.com/css?family=Open+Sans:400,400italic|PT+Sans+Caption:700,400);
+@import url(http://d396qusza40orc.cloudfront.net/startup%2Fcode%2Fsocial-buttons.css);
+
+@media (min-width: 980px) {
+   body {
+      padding-top: 60px;
+   }
+}
+
+@media (max-width: 480px) {
+   
+}
+
+body {
+   font-family: 'Open Sans', Helvetica, Arial, sans-serif;
+}
+
+.heading, .subheading {
+   text-align: center;
+   font-family: 'PT Sans Caption', Helvetica, Arial, sans-serif;
+}
+
+p.lead {
+   padding-top: 1.5%;
+   font-size: 18pt;
+   line-height: 1.25em;
+}
+
+p {
+   font-size: 13.5pt;
+   line-height: 18pt;
+}
+
+.pitch {
+   padding: 2.5% 0;
+}
+
+.order {
+   padding: 2% 0%;
+}
+
+.actions {
+   background-color: #343434;
+   color: white;
+   padding: 3% 0%;
+}
+
+.video, .thermometer, .order, .social, .statistics {
+   text-align: center;
+}
+
+.copy {
+   padding: 2.5% 0 2.5% 0;
+   text-align: justify;
+}
+
+.asset {
+   padding: 2.5% 0;
+}
+
+.footer {
+   color: #cccccc;
+   text-align: center;
+}
+
+.footer p {
+   font-size: 8pt;
+}

@@ -11,6 +11,14 @@ app.get('/', function (request, response) {
     });
 });
 
+app.get('/styles.css', function (request, response) {
+    fs.readFile("styles.css", function (err, data) {
+        var contents = data.toString();
+        response.contentType('text/css');
+        response.send(contents);
+    });
+});
+
 var port = process.env.PORT || 8080;
 app.listen(port, function () {
     console.log("Listening on " + port);
