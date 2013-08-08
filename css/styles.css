@@ -102,3 +102,8 @@ p {
 div {
    /* border: 1px solid*/
 }
+
+div.addthis_toolbox {
+   width: 108px;
+   margin: 0 auto;
+}
